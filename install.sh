@@ -24,7 +24,7 @@ main() (
         source="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
     fi
 
-    package=musaranho-0.1.2-x86_64-unknown-linux-gnu
+    package=musaranho-0.1.3-x86_64-unknown-linux-gnu
     archive="$package.tar.gz"
     temporary="$(mktemp -d)"
     staged_binary=''
@@ -44,7 +44,7 @@ main() (
     fi
     (cd "$temporary" && printf '%s  %s\n' "$checksum" "$archive" | sha256sum -c -)
     tar -xzf "$temporary/$archive" -C "$temporary" --no-same-owner --no-same-permissions
-    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.1.2' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
+    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.1.3' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
 
     bin_dir="$HOME/.local/bin"
     notices="$HOME/.local/share/musaranho-cli"

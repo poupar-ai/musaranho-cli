@@ -1,5 +1,10 @@
 # Histórico
 
+## 0.1.3 — prévia de avaliação
+
+- `musaranho serve --detach` mantém o servidor ativo após fechar o terminal.
+- Confirmação de inicialização com PID, URL e log privado; falhas de bind são reportadas ao iniciar.
+
 ## 0.1.2 — prévia de avaliação
 
 - Porta padrão do servidor alterada para `8888`.

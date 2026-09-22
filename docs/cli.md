@@ -9,6 +9,7 @@ Cada instalação administra seus próprios tokens. A criação e a revogação 
 | `musaranho --help` | Exibir ajuda |
 | `musaranho --version` | Exibir versão |
 | `musaranho serve` | Iniciar servidor em `127.0.0.1:8888` |
+| `musaranho serve --detach` | Iniciar em segundo plano, independente do terminal |
 | `musaranho serve --bind 127.0.0.1:9000` | Escolher endereço e porta |
 | `musaranho token create --name app` | Criar token com validade de 30 dias |
 | `musaranho token create --name app --expires-in-days 90` | Escolher validade |
@@ -16,6 +17,18 @@ Cada instalação administra seus próprios tokens. A criação e a revogação 
 | `musaranho token revoke 1` | Revogar token pelo ID |
 
 `--expires-in-days` aceita valores de 1 a 36500. O nome identifica a integração; não precisa ser único. Todos os tokens concedem o mesmo acesso de consumo à API. Não há cotas ou permissões individuais por token nesta etapa.
+
+## Servidor em segundo plano
+
+```bash
+musaranho serve --detach
+```
+
+O comando retorna após confirmar que o servidor começou a escutar. A saída JSON informa `pid`, `url` e `log`. Você pode fechar o terminal; o servidor continua em execução. `--bind` e `--data-dir` também funcionam nesse modo.
+
+O log fica em `server.log` no diretório de dados, com permissão `600`; por padrão, `~/.local/share/musaranho/server.log`. Use `tail -f` com o caminho retornado para acompanhar. Para encerrar, execute `kill PID`, substituindo `PID` pelo número informado. Não exige `sudo`. Para início automático após reiniciar a máquina, configure o gerenciador de serviços da distribuição.
+
+Se a porta estiver ocupada, o comando falha e indica o log. O processo em primeiro plano iniciado sem `--detach` continua ligado ao terminal e pode ser encerrado com `Ctrl+C`.
 
 ## Saída e rotação
 

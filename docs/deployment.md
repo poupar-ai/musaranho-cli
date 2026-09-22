@@ -11,7 +11,7 @@ musaranho token create --name minha-aplicacao
 musaranho serve --bind 127.0.0.1:8888
 ```
 
-O comando permanece em primeiro plano. Para operação contínua, configure o gerenciador de serviços da sua distribuição com esse comando, a conta escolhida e um diretório de dados persistente. O servidor aceita encerramento por `SIGINT` e `SIGTERM`.
+O comando permanece em primeiro plano. Use `musaranho serve --detach` para continuar servindo após fechar o terminal; o CLI informa PID, URL e log. Para início automático após reiniciar a VPS, configure o gerenciador de serviços da sua distribuição com esse comando, a conta escolhida e um diretório de dados persistente. O servidor aceita encerramento por `SIGINT` e `SIGTERM`.
 
 ## HTTPS
 
