@@ -23,10 +23,29 @@ A documentação é gerada a partir do projeto principal. Sugestões de alteraç
 | Swagger embutido e OpenAPI | Disponíveis em `/docs` e `/openapi.json` |
 | Lotes de perguntas independentes | Entrada validada na API; formato de saída testado com 50 perguntas |
 | Contrato JSON `choice`, `score` e `noul` | Compatível nos campos comuns com Jev/Laya |
-| Modelo treinado e inferência | Ainda não disponíveis |
-| Executável de avaliação 0.1.4 | Linux x86_64; mínimo de glibc em `cli/release.json` |
+| Modelo treinado e inferência | Candidatos privados em avaliação; indisponíveis no pacote público |
+| Executável de avaliação 0.1.5 | Linux x86_64; mínimo de glibc em `cli/release.json` |
 
 O endpoint de inferência retorna `503 model_not_ready` após autenticar. Os exemplos de respostas são ilustrativos; não são previsões ou resultados de qualidade do modelo.
+
+## Benchmark Laya × Musaranho
+
+Medição de 22/09/2026: **256 casos e 704 perguntas**, em português, inglês e espanhol. Comparação do Musaranho experimental com três variantes e dois modos do roteador oficial do Laya 0.3.5.
+
+| Modelo | Acerto global |
+| --- | ---: |
+| Musaranho experimental | **70,45%** |
+| Laya Typed Decisions | 57,67% |
+| Laya Router com detecção de tarefa | 56,82% |
+| Laya Multilingual | 40,91% |
+| Laya Router padrão | 35,37% |
+| Laya English | 35,09% |
+
+Musaranho ganha **12,78 pontos percentuais** sobre o melhor Laya nesta amostra. No cenário de contexto longo com 50 perguntas, seu p50 foi **36,59 ms**, 9,50× mais rápido que o Laya mais rápido nesse cenário. **Laya Typed vence em Score (70,98% contra 61,14%) e nos workflows de Typed Decisions (84,92% contra 60,66%). Laya também tem menor latência com uma pergunta.**
+
+São resultados de validação reutilizada durante o desenvolvimento, com os limites de contexto do Laya ampliados para preservar as entradas. Não demonstram superioridade geral em dados novos. O candidato não passou na triagem de regressões e ainda não está disponível no CLI público. Ainda é necessária uma avaliação independente.
+
+Consulte o [benchmark completo, metodologia e limitações](docs/laya-vs-musaranho.md) e os [dados em JSON](benchmarks/laya-vs-musaranho-2026-09-22.json). O [comparativo Jev × Musaranho](docs/jev-vs-musaranho.md) documenta separadamente uma avaliação anterior.
 
 ## Baixar e testar
 
@@ -78,6 +97,8 @@ O ID deve corresponder ao token desejado. A revogação vale para novas autentic
 - [Instalação e disponibilidade](docs/installation.md)
 - [CLI e administração de tokens](docs/cli.md)
 - [API e contrato das respostas](docs/api.md)
+- [Comparativo experimental Jev × Musaranho](docs/jev-vs-musaranho.md)
+- [Benchmark Laya × Musaranho](docs/laya-vs-musaranho.md)
 - [Especificação OpenAPI](openapi.json)
 - [Servidor em VPS e HTTPS](docs/deployment.md)
 - [Exemplos JSON](examples/README.md)

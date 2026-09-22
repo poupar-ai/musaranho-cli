@@ -1,5 +1,11 @@
 # Histórico
 
+## 0.1.5 — prévia de avaliação
+
+- Resumo do benchmark Laya × Musaranho no README, com acerto, latência e limitações por tarefa.
+- Relatórios Laya × Musaranho e Jev × Musaranho acompanhados dos resultados agregados em JSON.
+- Pacote de avaliação atualizado; o modelo experimental continua fora do CLI e a inferência retorna `503 model_not_ready`.
+
 ## 0.1.4 — prévia de avaliação
 
 - Validação de lotes independentes em `POST /v1/systemone`, com testes de 50 perguntas.

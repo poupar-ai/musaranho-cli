@@ -1,10 +1,10 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.5",
   "channel": "preview",
   "target": "x86_64-unknown-linux-gnu",
   "glibc_min": "2.34",
   "inference_available": false,
-  "archive": "musaranho-0.1.4-x86_64-unknown-linux-gnu.tar.gz",
-  "sha256": "01cd87cbd5c136c91789a3d46ede2b9b9ebd68d1388218038d34332833c24843",
+  "archive": "musaranho-0.1.5-x86_64-unknown-linux-gnu.tar.gz",
+  "sha256": "899a6288963dcaa4d0de06ff06e83cf9082ee7017ef28679cb889cda510fbe7b",
   "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
 }
