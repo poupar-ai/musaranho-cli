@@ -5,6 +5,6 @@
   "glibc_min": "2.34",
   "inference_available": false,
   "archive": "musaranho-0.1.0-x86_64-unknown-linux-gnu.tar.gz",
-  "sha256": "0c8072ab741e3aaff17d15e75f1e5a2ad1bcdebcebb9d287b402e4ae0510bab7",
+  "sha256": "b81652113bbfed75e9853e97d3862e02e4255e1decb7113d52454c91f6fcd850",
   "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
 }
