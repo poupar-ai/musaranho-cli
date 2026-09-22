@@ -1,5 +1,10 @@
 # Histórico
 
+## 0.1.1 — prévia de avaliação
+
+- Publicação automática no repositório público a partir de tags `v*` do privado.
+- CLI, instalador, OpenAPI e documentação sincronizados na versão 0.1.1.
+
 ## 0.1.0 — prévia de avaliação
 
 - Documentação pública de instalação, CLI, API e execução em VPS.

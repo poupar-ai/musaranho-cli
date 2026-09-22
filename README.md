@@ -21,7 +21,7 @@ A documentação é gerada a partir do projeto principal. Sugestões de alteraç
 | Swagger embutido e OpenAPI | Disponíveis em `/docs` e `/openapi.json` |
 | Contrato JSON `choice`, `score` e `noul` | Validado em testes de formato |
 | Modelo treinado e inferência | Ainda não disponíveis |
-| Executável de avaliação 0.1.0 | Linux x86_64; mínimo de glibc em `cli/release.json` |
+| Executável de avaliação 0.1.1 | Linux x86_64; mínimo de glibc em `cli/release.json` |
 
 O endpoint de inferência retorna `503 model_not_ready` após autenticar. Os exemplos de respostas são ilustrativos; não são previsões ou resultados de qualidade do modelo.
 
