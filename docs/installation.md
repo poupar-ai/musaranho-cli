@@ -2,7 +2,7 @@
 
 ## Disponibilidade atual
 
-Há um pacote de avaliação **0.1.0 para Linux x86_64**, contendo CLI, servidor, autenticação e Swagger. Ele não inclui modelo treinado. O executável requer glibc 2.34 ou superior, `libgcc_s.so.1` e as bibliotecas padrão do sistema; não exige Rust, Python ou GPU nesta prévia.
+Há um pacote de avaliação **0.1.0 para Linux x86_64**, contendo CLI, servidor, autenticação e Swagger. Ele não inclui modelo treinado. O executável requer a versão mínima de glibc indicada em `cli/release.json` (`glibc_min`), `libgcc_s.so.1` e as bibliotecas padrão do sistema; não exige Rust, Python ou GPU nesta prévia.
 
 O CLI e a autenticação foram testados em Linux x86_64. O suporte a outras plataformas e os requisitos de memória, GPU e runtime do modelo serão informados quando houver uma versão de inferência. Não há suporte anunciado para Windows nesta etapa.
 

@@ -9,7 +9,7 @@ main() (
     fi
     platform="$(uname -s)/$(uname -m)"
     if [[ "$platform" != Linux/x86_64 ]]; then
-        echo 'Esta prévia suporta somente Linux x86_64 com glibc 2.34 ou superior.' >&2
+        echo 'Esta prévia suporta somente Linux x86_64 com glibc compatível com a release.' >&2
         return 1
     fi
     for command in tar sha256sum mktemp install cp mv; do
