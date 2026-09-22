@@ -1,0 +1,37 @@
+{
+  "model": "musaranho-format-example",
+  "answers": {
+    "category": {
+      "type": "choice",
+      "probabilities": {
+        "invoice": 0.8,
+        "contract": 0.2
+      },
+      "confidence": 0.2780719051126377,
+      "choice": "invoice"
+    },
+    "urgency": {
+      "type": "score",
+      "probabilities": {
+        "0": 0.1,
+        "1": 0.2,
+        "2": 0.7
+      },
+      "confidence": 0.27015330083790245,
+      "score": 1.5999999999999999,
+      "legend": {
+        "0": "Baixa",
+        "1": "Média",
+        "2": "Alta"
+      }
+    },
+    "needs_review": {
+      "type": "noul",
+      "noul": 0.7
+    }
+  },
+  "usage": {
+    "input_tokens": 100,
+    "output_tokens": 0
+  }
+}

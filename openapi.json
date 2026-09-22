@@ -1,0 +1,239 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Musaranho API",
+    "version": "0.1.0",
+    "description": "Servidor próprio do Musaranho. Crie um token pelo CLI e cole somente o token em Authorize. A inferência ainda não está implementada: POST /v1/systemone retorna 503 model_not_ready após autenticar. Swagger e OpenAPI são públicos; chamadas operacionais exigem Bearer. A autorização fica apenas na sessão da página."
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Esta instalação do Musaranho"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "health",
+        "summary": "Verificar o servidor HTTP",
+        "tags": [
+          "Servidor"
+        ],
+        "responses": {
+          "200": {
+            "description": "Servidor ativo; inferência ainda indisponível.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                },
+                "example": {
+                  "status": "running",
+                  "model_ready": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token ausente, inválido, expirado ou revogado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "unauthorized"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "WWW-Authenticate": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Bearer"
+              }
+            }
+          },
+          "503": {
+            "description": "Falha ao verificar autenticação.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "authentication_unavailable"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/systemone": {
+      "post": {
+        "operationId": "systemone",
+        "summary": "Inferência — ainda indisponível",
+        "tags": [
+          "Decisões"
+        ],
+        "description": "Rota reservada para Choice/Score/Noul. Nesta prévia, o corpo não é processado nem validado e não há resposta de sucesso de inferência.",
+        "requestBody": {
+          "required": false,
+          "description": "Exemplo do contrato futuro; ignorado nesta prévia.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "example": {
+                "state": "O documento é uma fatura que vence amanhã e precisa de revisão.",
+                "model": "musaranho-format-example",
+                "questions": {
+                  "category": {
+                    "type": "choice",
+                    "instructions": "Qual categoria descreve o documento?",
+                    "criteria": {
+                      "invoice": "Fatura",
+                      "contract": "Contrato"
+                    }
+                  },
+                  "urgency": {
+                    "type": "score",
+                    "instructions": "Qual a urgência?",
+                    "criteria": [
+                      "Baixa",
+                      "Média",
+                      "Alta"
+                    ]
+                  },
+                  "needs_review": {
+                    "type": "noul",
+                    "instructions": "Precisa de revisão humana?"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Token ausente, inválido, expirado ou revogado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "unauthorized"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "WWW-Authenticate": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Bearer"
+              }
+            }
+          },
+          "503": {
+            "description": "Inferência não implementada ou autenticação indisponível.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "modelNotReady": {
+                    "value": {
+                      "error": {
+                        "code": "model_not_ready",
+                        "message": "Musaranho inference is not implemented yet"
+                      }
+                    }
+                  },
+                  "authenticationUnavailable": {
+                    "value": {
+                      "error": {
+                        "code": "authentication_unavailable"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Token criado por musaranho token create. Informe somente o token, sem prefixar Bearer."
+      }
+    },
+    "schemas": {
+      "Health": {
+        "type": "object",
+        "required": [
+          "status",
+          "model_ready"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "running"
+            ]
+          },
+          "model_ready": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

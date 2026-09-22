@@ -1,0 +1,27 @@
+{
+  "state": "O documento é uma fatura que vence amanhã e precisa de revisão.",
+  "model": "musaranho-format-example",
+  "questions": {
+    "category": {
+      "type": "choice",
+      "instructions": "Qual categoria descreve o documento?",
+      "criteria": {
+        "invoice": "Fatura",
+        "contract": "Contrato"
+      }
+    },
+    "urgency": {
+      "type": "score",
+      "instructions": "Qual a urgência?",
+      "criteria": [
+        "Baixa",
+        "Média",
+        "Alta"
+      ]
+    },
+    "needs_review": {
+      "type": "noul",
+      "instructions": "Precisa de revisão humana?"
+    }
+  }
+}

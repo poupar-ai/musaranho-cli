@@ -1,0 +1,21 @@
+Musaranho 0.1.0 — Prévia para avaliação
+Copyright (c) 2026 Poupar.
+
+É permitido baixar, instalar e executar o executável desta prévia em sua
+própria máquina ou VPS para testes e avaliação, incluindo integração de
+aplicações com sua API. Você pode manter as cópias necessárias a esses testes
+e ao backup da instalação.
+
+Esta autorização não disponibiliza o código-fonte do Musaranho nem concede
+licença open source, direitos sobre modelos ou autorização geral de
+redistribuição, sublicenciamento ou uso da marca e do mascote. Outros usos
+dependem de autorização dos titulares. Os demais direitos são reservados.
+
+Esta versão implementa o servidor, autenticação e documentação interativa;
+não contém modelo treinado e não executa inferência. É fornecida no estado
+em que se encontra, sem promessa de adequação à produção, suporte, garantia
+de desempenho ou compatibilidade futura, nos limites permitidos por lei.
+
+Componentes de terceiros mantêm suas próprias licenças, incluídas em
+licenses/ e THIRD_PARTY_NOTICES.md. Nada nestes termos restringe os direitos
+concedidos por essas licenças ou por normas legais aplicáveis.

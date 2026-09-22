@@ -1,0 +1,22 @@
+# Exemplos
+
+- [systemone.request.json](systemone.request.json): requisição prevista com Choice, Score e Noul.
+- [systemone.response.json](systemone.response.json): resposta ilustrativa no contrato comum. Não é resultado de um modelo treinado.
+- [Caddyfile](Caddyfile): proxy HTTPS; substitua o domínio antes de usar.
+
+O endpoint ainda retorna `503 model_not_ready`; enviar o JSON não executa inferência. As opções e o nome do modelo nos exemplos não anunciam um modelo disponível.
+
+Com o servidor em execução e a partir da raiz deste repositório, você pode verificar a autenticação da rota:
+
+```bash
+read -r -s -p 'Token: ' MUSARANHO_TOKEN
+printf '\n'
+printf 'Authorization: Bearer %s\n' "$MUSARANHO_TOKEN" |
+  curl --include --header @- \
+    --header 'Content-Type: application/json' \
+    --data-binary @examples/systemone.request.json \
+    http://127.0.0.1:8080/v1/systemone
+unset MUSARANHO_TOKEN
+```
+
+Resultado esperado nesta prévia: `503 model_not_ready` com token válido; `401 unauthorized` com token inválido. Para chamar uma VPS, use a URL HTTPS da sua instalação.
