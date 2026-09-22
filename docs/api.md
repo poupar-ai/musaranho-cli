@@ -48,11 +48,21 @@ unset MUSARANHO_TOKEN
 {"error":{"code":"model_not_ready","message":"Musaranho inference is not implemented yet"}}
 ```
 
-O corpo de inferência ainda não é processado ou validado nesta prévia. Os formatos abaixo documentam o contrato pretendido para integração; não anunciam funcionalidade disponível.
+O corpo JSON é obrigatório e validado antes de chegar à etapa de inferência. Um lote válido retorna `503 model_not_ready` enquanto o modelo não estiver integrado. A API não gera respostas simuladas.
+
+## Perguntas e respostas em lote
+
+Envie as 50 perguntas em um único `POST /v1/systemone`, dentro de `questions`, usando um ID exclusivo para cada uma. Todas compartilham o mesmo `state`; a resposta prevista contém uma entrada em `answers` para cada ID. O [exemplo JSON](../examples/systemone.request.json) mostra três perguntas dos três tipos; o mesmo formato aceita 50. Não há endpoint separado nem modo assíncrono de jobs.
+
+Cada pergunta é independente: não recebe respostas de outras perguntas como contexto. A ordem dos IDs não define dependência. Perguntas dependentes exigem chamadas sucessivas; `depends_on` não faz parte deste contrato. A validação é do lote inteiro: uma pergunta inválida rejeita a requisição com `422`, sem resultado parcial. IDs duplicados no JSON também são rejeitados.
+
+Use `Content-Type: application/json`. O corpo pode ter até **2 MiB**; não há limite fixo de 50 perguntas. `state` aceita texto, objeto ou array. As instruções são opcionais e aceitam texto, objeto, array ou null. Choice exige um mapa não vazio de alternativas; Score exige uma lista ordenada não vazia; Noul aceita descrições opcionais de `true` e `false`.
+
+**Execução neural planejada:** avaliar perguntas em lotes de tensores com o mesmo modelo carregado, explorando paralelismo da GPU e dividindo lotes conforme a memória disponível. Enviar 50 perguntas não significa carregar 50 modelos nem garante ganho de 50 vezes. O backend ainda não está integrado: esta versão valida entrada e formato de saída, mas não executa inferência em paralelo e não tem latência medida. A velocidade e a independência das previsões deverão ser avaliadas com o modelo real.
 
 ## Contrato de decisões
 
-A requisição prevista contém `state`, `model` e `questions`. Cada pergunta tem um ID escolhido pela aplicação, `type` e `instructions`. Choice usa critérios nomeados; Score usa uma lista ordenada; Noul representa uma decisão sim/não. Veja o [exemplo completo](../examples/systemone.request.json).
+A requisição contém `state`, `model` e `questions`. Cada pergunta tem um ID escolhido pela aplicação, `type` e `instructions`. Choice usa critérios nomeados; Score usa uma lista ordenada; Noul representa uma decisão sim/não. Veja o [exemplo completo](../examples/systemone.request.json).
 
 O identificador `musaranho-format-example` dos exemplos é ilustrativo, não o nome de um modelo disponível. Os identificadores aceitos serão publicados com a versão de inferência.
 
@@ -81,7 +91,11 @@ Os extras `action` e `noul.confidence` do Laya não integram o contrato comum. I
 | HTTP | Código | Significado |
 | --- | --- | --- |
 | `200` | — | Health autenticado |
+| `400` | `invalid_request` | JSON malformado |
 | `401` | `unauthorized` | Token ausente, inválido, expirado ou revogado |
+| `413` | `payload_too_large` | Corpo maior que 2 MiB |
+| `415` | `unsupported_media_type` | Content-Type incompatível |
+| `422` | `invalid_request` | Campos, perguntas, critérios ou IDs inválidos |
 | `503` | `authentication_unavailable` | Não foi possível verificar a credencial; acesso bloqueado |
 | `503` | `model_not_ready` | Autenticação válida, mas inferência indisponível |
 

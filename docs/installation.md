@@ -2,7 +2,7 @@
 
 ## Disponibilidade atual
 
-Há um pacote de avaliação **0.1.3 para Linux x86_64**, contendo CLI, servidor, autenticação e Swagger. Ele não inclui modelo treinado. O executável requer a versão mínima de glibc indicada em `cli/release.json` (`glibc_min`), `libgcc_s.so.1` e as bibliotecas padrão do sistema; não exige Rust, Python ou GPU nesta prévia.
+Há um pacote de avaliação **0.1.4 para Linux x86_64**, contendo CLI, servidor, autenticação e Swagger. Ele não inclui modelo treinado. O executável requer a versão mínima de glibc indicada em `cli/release.json` (`glibc_min`), `libgcc_s.so.1` e as bibliotecas padrão do sistema; não exige Rust, Python ou GPU nesta prévia.
 
 O CLI e a autenticação foram testados em Linux x86_64. O suporte a outras plataformas e os requisitos de memória, GPU e runtime do modelo serão informados quando houver uma versão de inferência. Não há suporte anunciado para Windows nesta etapa.
 
@@ -33,13 +33,13 @@ musaranho --version
 
 ## Extração manual
 
-O pacote é `cli/musaranho-0.1.3-x86_64-unknown-linux-gnu.tar.gz`, acompanhado de `cli/SHA256SUMS`. Para executar sem instalar:
+O pacote é `cli/musaranho-0.1.4-x86_64-unknown-linux-gnu.tar.gz`, acompanhado de `cli/SHA256SUMS`. Para executar sem instalar:
 
 ```bash
 (cd cli && sha256sum -c SHA256SUMS)
 MUSARANHO_TEST_DIR="$(mktemp -d)"
-tar -xzf cli/musaranho-0.1.3-x86_64-unknown-linux-gnu.tar.gz -C "$MUSARANHO_TEST_DIR"
-cd "$MUSARANHO_TEST_DIR/musaranho-0.1.3-x86_64-unknown-linux-gnu"
+tar -xzf cli/musaranho-0.1.4-x86_64-unknown-linux-gnu.tar.gz -C "$MUSARANHO_TEST_DIR"
+cd "$MUSARANHO_TEST_DIR/musaranho-0.1.4-x86_64-unknown-linux-gnu"
 ./musaranho --version
 ```
 

@@ -4,7 +4,9 @@
   <img src="assets/musaranho.png" alt="Mascote do Musaranho com roupa preta e verde e bandeira do Brasil" width="280">
 </p>
 
-Servidor de decisões da Poupar para executar na sua própria máquina ou VPS. Você administra a instalação e os tokens de acesso à API, sem depender de hospedagem da Poupar.
+Motor de decisões tipadas **System 1**, em desenvolvimento, projetado para inferência multilíngue não autoregressiva e perguntas independentes em lote. O objetivo é produzir decisões `choice`, `score` e `noul` diretamente, sem gerar texto livre.
+
+Execute o CLI Rust e a API na sua própria máquina ou VPS, com tokens locais e Swagger embutido. A camada HTTP já valida lotes de perguntas; o modelo e o processamento neural em paralelo ainda estão em desenvolvimento.
 
 Este repositório reúne documentação pública, exemplos de integração e o pacote de avaliação do servidor. A implementação do produto é privada; a distribuição é por executáveis compilados.
 
@@ -19,9 +21,10 @@ A documentação é gerada a partir do projeto principal. Sugestões de alteraç
 | CLI e servidor HTTP em Rust | Implementados e testados em Linux |
 | Criação, expiração e revogação de tokens | Implementadas |
 | Swagger embutido e OpenAPI | Disponíveis em `/docs` e `/openapi.json` |
-| Contrato JSON `choice`, `score` e `noul` | Validado em testes de formato |
+| Lotes de perguntas independentes | Entrada validada na API; formato de saída testado com 50 perguntas |
+| Contrato JSON `choice`, `score` e `noul` | Compatível nos campos comuns com Jev/Laya |
 | Modelo treinado e inferência | Ainda não disponíveis |
-| Executável de avaliação 0.1.3 | Linux x86_64; mínimo de glibc em `cli/release.json` |
+| Executável de avaliação 0.1.4 | Linux x86_64; mínimo de glibc em `cli/release.json` |
 
 O endpoint de inferência retorna `503 model_not_ready` após autenticar. Os exemplos de respostas são ilustrativos; não são previsões ou resultados de qualidade do modelo.
 

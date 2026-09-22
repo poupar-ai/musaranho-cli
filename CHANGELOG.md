@@ -1,5 +1,12 @@
 # Histórico
 
+## 0.1.4 — prévia de avaliação
+
+- Validação de lotes independentes em `POST /v1/systemone`, com testes de 50 perguntas.
+- JSON inválido, campos e critérios incorretos, IDs duplicados e payloads acima de 2 MiB retornam erros estruturados.
+- Swagger descreve entrada em lote e contrato futuro de saída; sem respostas simuladas ou inferência paralela nesta prévia.
+- Apresentação do projeto centrada no motor de decisões tipadas System 1.
+
 ## 0.1.3 — prévia de avaliação
 
 - `musaranho serve --detach` mantém o servidor ativo após fechar o terminal.

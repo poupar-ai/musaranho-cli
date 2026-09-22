@@ -1,6 +1,6 @@
 # Exemplos
 
-- [systemone.request.json](systemone.request.json): requisição prevista com Choice, Score e Noul.
+- [systemone.request.json](systemone.request.json): lote com três perguntas independentes Choice, Score e Noul. Acrescente IDs em questions para enviar 50 perguntas no mesmo formato.
 - [systemone.response.json](systemone.response.json): resposta ilustrativa no contrato comum. Não é resultado de um modelo treinado.
 - [Caddyfile](Caddyfile): proxy HTTPS; substitua o domínio antes de usar.
 

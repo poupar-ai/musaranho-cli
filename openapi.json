@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Musaranho API",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "Servidor próprio do Musaranho. Crie um token pelo CLI e cole somente o token em Authorize. A inferência ainda não está implementada: POST /v1/systemone retorna 503 model_not_ready após autenticar. Swagger e OpenAPI são públicos; chamadas operacionais exigem Bearer. A autorização fica apenas na sessão da página."
   },
   "servers": [
@@ -83,19 +83,18 @@
     "/v1/systemone": {
       "post": {
         "operationId": "systemone",
-        "summary": "Inferência — ainda indisponível",
+        "summary": "Validar lote de perguntas independentes — inferência ainda indisponível",
         "tags": [
           "Decisões"
         ],
-        "description": "Rota reservada para Choice/Score/Noul. Nesta prévia, o corpo não é processado nem validado e não há resposta de sucesso de inferência.",
+        "description": "Recebe perguntas independentes em questions sobre um mesmo state. Aceita lotes de 50 perguntas dentro do limite de 2 MiB do corpo JSON. Valida todo o lote; uma pergunta inválida rejeita a requisição. O contrato de resposta preserva os IDs em answers. Nesta prévia, lotes válidos retornam 503 model_not_ready: modelo e processamento neural paralelo ainda não estão integrados.",
         "requestBody": {
-          "required": false,
-          "description": "Exemplo do contrato futuro; ignorado nesta prévia.",
+          "required": true,
+          "description": "Perguntas choice, score e noul independentes, identificadas por IDs únicos.",
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "additionalProperties": true
+                "$ref": "#/components/schemas/SystemOneRequest"
               },
               "example": {
                 "state": "O documento é uma fatura que vence amanhã e precisa de revisão.",
@@ -152,7 +151,7 @@
             }
           },
           "503": {
-            "description": "Inferência não implementada ou autenticação indisponível.",
+            "description": "Lote válido, mas inferência não implementada; ou autenticação indisponível.",
             "content": {
               "application/json": {
                 "schema": {
@@ -173,6 +172,70 @@
                         "code": "authentication_unavailable"
                       }
                     }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON malformado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "invalid_request",
+                    "message": "JSON malformado."
+                  }
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Corpo JSON excede 2 MiB.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "payload_too_large",
+                    "message": "Corpo JSON excede 2 MiB."
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Use Content-Type: application/json.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "unsupported_media_type",
+                    "message": "Use Content-Type: application/json."
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contrato inválido, lote vazio, critérios inválidos ou IDs duplicados.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": {
+                    "code": "invalid_request",
+                    "message": "Contrato inválido, lote vazio, critérios inválidos ou IDs duplicados."
                   }
                 }
               }
@@ -231,6 +294,349 @@
                 "type": "string"
               }
             }
+          }
+        }
+      },
+      "JSONContent": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true
+          },
+          {
+            "type": "array",
+            "items": {}
+          }
+        ]
+      },
+      "OptionalJSONContent": {
+        "anyOf": [
+          {
+            "type": "string",
+            "nullable": true
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true
+          },
+          {
+            "type": "array",
+            "items": {},
+            "nullable": true
+          }
+        ]
+      },
+      "ChoiceQuestion": {
+        "type": "object",
+        "required": [
+          "type",
+          "criteria"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "choice"
+            ]
+          },
+          "instructions": {
+            "$ref": "#/components/schemas/OptionalJSONContent"
+          },
+          "criteria": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/OptionalJSONContent"
+            }
+          }
+        }
+      },
+      "ScoreQuestion": {
+        "type": "object",
+        "required": [
+          "type",
+          "criteria"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "score"
+            ]
+          },
+          "instructions": {
+            "$ref": "#/components/schemas/OptionalJSONContent"
+          },
+          "criteria": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/JSONContent"
+            }
+          }
+        }
+      },
+      "NoulQuestion": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "noul"
+            ]
+          },
+          "instructions": {
+            "$ref": "#/components/schemas/OptionalJSONContent"
+          },
+          "criteria": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "true": {
+                "$ref": "#/components/schemas/OptionalJSONContent"
+              },
+              "false": {
+                "$ref": "#/components/schemas/OptionalJSONContent"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "Question": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ChoiceQuestion"
+          },
+          {
+            "$ref": "#/components/schemas/ScoreQuestion"
+          },
+          {
+            "$ref": "#/components/schemas/NoulQuestion"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "choice": "#/components/schemas/ChoiceQuestion",
+            "score": "#/components/schemas/ScoreQuestion",
+            "noul": "#/components/schemas/NoulQuestion"
+          }
+        }
+      },
+      "SystemOneRequest": {
+        "type": "object",
+        "required": [
+          "state",
+          "model",
+          "questions"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "$ref": "#/components/schemas/JSONContent"
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "questions": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "IDs únicos. A ordem dos IDs não estabelece dependências. Cinquenta perguntas podem compartilhar o mesmo state.",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Question"
+            }
+          }
+        }
+      },
+      "ChoiceAnswer": {
+        "type": "object",
+        "required": [
+          "type",
+          "probabilities",
+          "confidence",
+          "choice"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "choice"
+            ]
+          },
+          "probabilities": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "choice": {
+            "type": "string"
+          }
+        }
+      },
+      "ScoreAnswer": {
+        "type": "object",
+        "required": [
+          "type",
+          "probabilities",
+          "confidence",
+          "score",
+          "legend"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "score"
+            ]
+          },
+          "probabilities": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "score": {
+            "type": "number"
+          },
+          "legend": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JSONContent"
+            }
+          }
+        }
+      },
+      "NoulAnswer": {
+        "type": "object",
+        "required": [
+          "type",
+          "noul"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "noul"
+            ]
+          },
+          "noul": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "SystemOneResponse": {
+        "type": "object",
+        "description": "Contrato de saída após integração da inferência. Ainda não retornado pela API desta prévia. Exatamente uma resposta por ID de questions; nenhuma pergunta recebe resultados das outras.",
+        "required": [
+          "model",
+          "answers",
+          "usage"
+        ],
+        "properties": {
+          "model": {
+            "type": "string"
+          },
+          "answers": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ChoiceAnswer"
+                },
+                {
+                  "$ref": "#/components/schemas/ScoreAnswer"
+                },
+                {
+                  "$ref": "#/components/schemas/NoulAnswer"
+                }
+              ]
+            }
+          },
+          "usage": {
+            "type": "object",
+            "required": [
+              "input_tokens",
+              "output_tokens"
+            ],
+            "properties": {
+              "input_tokens": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "output_tokens": {
+                "type": "integer",
+                "enum": [
+                  0
+                ]
+              }
+            }
+          }
+        },
+        "example": {
+          "model": "musaranho-format-example",
+          "answers": {
+            "category": {
+              "type": "choice",
+              "probabilities": {
+                "invoice": 0.8,
+                "contract": 0.2
+              },
+              "confidence": 0.2780719051126377,
+              "choice": "invoice"
+            },
+            "urgency": {
+              "type": "score",
+              "probabilities": {
+                "0": 0.1,
+                "1": 0.2,
+                "2": 0.7
+              },
+              "confidence": 0.27015330083790245,
+              "score": 1.5999999999999999,
+              "legend": {
+                "0": "Baixa",
+                "1": "Média",
+                "2": "Alta"
+              }
+            },
+            "needs_review": {
+              "type": "noul",
+              "noul": 0.7
+            }
+          },
+          "usage": {
+            "input_tokens": 100,
+            "output_tokens": 0
           }
         }
       }
