@@ -15,7 +15,7 @@ printf 'Authorization: Bearer %s\n' "$MUSARANHO_TOKEN" |
   curl --include --header @- \
     --header 'Content-Type: application/json' \
     --data-binary @examples/systemone.request.json \
-    http://127.0.0.1:8080/v1/systemone
+    http://127.0.0.1:8888/v1/systemone
 unset MUSARANHO_TOKEN
 ```
 

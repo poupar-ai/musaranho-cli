@@ -21,7 +21,7 @@ A documentação é gerada a partir do projeto principal. Sugestões de alteraç
 | Swagger embutido e OpenAPI | Disponíveis em `/docs` e `/openapi.json` |
 | Contrato JSON `choice`, `score` e `noul` | Validado em testes de formato |
 | Modelo treinado e inferência | Ainda não disponíveis |
-| Executável de avaliação 0.1.1 | Linux x86_64; mínimo de glibc em `cli/release.json` |
+| Executável de avaliação 0.1.2 | Linux x86_64; mínimo de glibc em `cli/release.json` |
 
 O endpoint de inferência retorna `503 model_not_ready` após autenticar. Os exemplos de respostas são ilustrativos; não são previsões ou resultados de qualidade do modelo.
 
@@ -48,7 +48,7 @@ musaranho token create --name teste
 musaranho serve
 ```
 
-Abra `http://127.0.0.1:8080/docs`, clique em **Authorize** e cole o token. Execute `GET /health` para testar. Esta prévia não exige Rust, Python ou GPU. Consulte os [termos de avaliação](BINARY-LICENSE.txt).
+Abra `http://127.0.0.1:8888/docs`, clique em **Authorize** e cole o token. Execute `GET /health` para testar. Esta prévia não exige Rust, Python ou GPU. Consulte os [termos de avaliação](BINARY-LICENSE.txt).
 
 ## Uso do CLI
 
@@ -59,7 +59,7 @@ musaranho token create --name minha-aplicacao --expires-in-days 30
 musaranho serve
 ```
 
-Guarde o token exibido na criação. O servidor escuta em `127.0.0.1:8080`; `/health` e `/v1/systemone` exigem `Authorization: Bearer <token>`. Abra `http://127.0.0.1:8080/docs` e use **Authorize** para testar a API. A documentação é pública, mas as chamadas continuam protegidas. Para consultar e revogar acessos:
+Guarde o token exibido na criação. O servidor escuta em `127.0.0.1:8888`; `/health` e `/v1/systemone` exigem `Authorization: Bearer <token>`. Abra `http://127.0.0.1:8888/docs` e use **Authorize** para testar a API. A documentação é pública, mas as chamadas continuam protegidas. Para consultar e revogar acessos:
 
 ```bash
 musaranho token list

@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Musaranho API",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Servidor próprio do Musaranho. Crie um token pelo CLI e cole somente o token em Authorize. A inferência ainda não está implementada: POST /v1/systemone retorna 503 model_not_ready após autenticar. Swagger e OpenAPI são públicos; chamadas operacionais exigem Bearer. A autorização fica apenas na sessão da página."
   },
   "servers": [

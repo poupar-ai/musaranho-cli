@@ -1,5 +1,10 @@
 # Histórico
 
+## 0.1.2 — prévia de avaliação
+
+- Porta padrão do servidor alterada para `8888`.
+- Instruções de instalação, Swagger e proxy atualizadas para a nova porta.
+
 ## 0.1.1 — prévia de avaliação
 
 - Publicação automática no repositório público a partir de tags `v*` do privado.

@@ -1,4 +1,4 @@
-Musaranho 0.1.1 — Prévia para avaliação
+Musaranho 0.1.2 — Prévia para avaliação
 Copyright (c) 2026 Poupar.
 
 É permitido baixar, instalar e executar o executável desta prévia em sua

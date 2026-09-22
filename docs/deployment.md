@@ -8,7 +8,7 @@ Com o executável instalado, use uma conta de serviço sem privilégios de admin
 
 ```bash
 musaranho token create --name minha-aplicacao
-musaranho serve --bind 127.0.0.1:8080
+musaranho serve --bind 127.0.0.1:8888
 ```
 
 O comando permanece em primeiro plano. Para operação contínua, configure o gerenciador de serviços da sua distribuição com esse comando, a conta escolhida e um diretório de dados persistente. O servidor aceita encerramento por `SIGINT` e `SIGTERM`.
@@ -19,15 +19,15 @@ Mantenha o Musaranho em localhost e coloque um proxy HTTPS na mesma máquina. Ex
 
 ```caddyfile
 musaranho.seu-dominio.com {
-    reverse_proxy 127.0.0.1:8080
+    reverse_proxy 127.0.0.1:8888
 }
 ```
 
-Substitua o domínio por um que você controla e aponte o DNS para a VPS. Instale e configure o Caddy conforme a [documentação oficial](https://caddyserver.com/docs/quick-starts/reverse-proxy). As portas 80/443 precisam chegar ao proxy para emissão automática do certificado. A porta 8080 deve permanecer fora do acesso público.
+Substitua o domínio por um que você controla e aponte o DNS para a VPS. Instale e configure o Caddy conforme a [documentação oficial](https://caddyserver.com/docs/quick-starts/reverse-proxy). As portas 80/443 precisam chegar ao proxy para emissão automática do certificado. A porta 8888 deve permanecer fora do acesso público.
 
 Aplicações remotas passam a usar `https://musaranho.seu-dominio.com`, mantendo o cabeçalho Bearer. O proxy deve encaminhar `Authorization`, sem registrar seu conteúdo. Não envie tokens por HTTP através da internet.
 
-`--bind 0.0.0.0:8080` permite escutar em outras interfaces, mas não configura TLS. Use-o somente quando a rede e o proxy exigirem, com firewall impedindo acesso HTTP direto. Autenticação por token não substitui criptografia de transporte.
+`--bind 0.0.0.0:8888` permite escutar em outras interfaces, mas não configura TLS. Use-o somente quando a rede e o proxy exigirem, com firewall impedindo acesso HTTP direto. Autenticação por token não substitui criptografia de transporte.
 
 ## Operação
 

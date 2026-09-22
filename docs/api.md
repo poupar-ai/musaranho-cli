@@ -1,6 +1,6 @@
 # API
 
-URL local padrão: `http://127.0.0.1:8080`. Para acesso remoto, utilize a URL HTTPS configurada pelo administrador da instalação.
+URL local padrão: `http://127.0.0.1:8888`. Para acesso remoto, utilize a URL HTTPS configurada pelo administrador da instalação.
 
 ## Autenticação
 
@@ -14,7 +14,7 @@ Crie o token pelo [CLI](cli.md). Tokens na URL não são aceitos. Não existe au
 
 ## Swagger embutido
 
-Abra `/docs` no endereço da sua instalação, por exemplo `http://127.0.0.1:8080/docs`. A interface, seus arquivos estáticos e `/openapi.json` são públicos para permitir carregar a documentação no navegador. Eles não dão acesso à inferência ou à administração.
+Abra `/docs` no endereço da sua instalação, por exemplo `http://127.0.0.1:8888/docs`. A interface, seus arquivos estáticos e `/openapi.json` são públicos para permitir carregar a documentação no navegador. Eles não dão acesso à inferência ou à administração.
 
 Clique em **Authorize**, cole somente o token criado pelo CLI e confirme. Depois use **Try it out** e **Execute**. O Swagger envia o cabeçalho Bearer nas chamadas. A credencial não é persistida entre recarregamentos da página; não use um navegador compartilhado com um token ativo.
 
@@ -36,7 +36,7 @@ Exemplo em Bash, sem gravar o segredo no histórico ou nos argumentos do curl:
 read -r -s -p 'Token: ' MUSARANHO_TOKEN
 printf '\n'
 printf 'Authorization: Bearer %s\n' "$MUSARANHO_TOKEN" |
-  curl --header @- http://127.0.0.1:8080/health
+  curl --header @- http://127.0.0.1:8888/health
 unset MUSARANHO_TOKEN
 ```
 

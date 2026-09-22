@@ -24,7 +24,7 @@ main() (
         source="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
     fi
 
-    package=musaranho-0.1.1-x86_64-unknown-linux-gnu
+    package=musaranho-0.1.2-x86_64-unknown-linux-gnu
     archive="$package.tar.gz"
     temporary="$(mktemp -d)"
     staged_binary=''
@@ -44,7 +44,7 @@ main() (
     fi
     (cd "$temporary" && printf '%s  %s\n' "$checksum" "$archive" | sha256sum -c -)
     tar -xzf "$temporary/$archive" -C "$temporary" --no-same-owner --no-same-permissions
-    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.1.1' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
+    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.1.2' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
 
     bin_dir="$HOME/.local/bin"
     notices="$HOME/.local/share/musaranho-cli"
@@ -56,7 +56,7 @@ main() (
     mv -fT -- "$staged_binary" "$bin_dir/musaranho"
     staged_binary=''
     printf '\nMusaranho instalado em %s/musaranho\nLicenças em %s\n\n' "$bin_dir" "$notices"
-    printf '%s\n' 'Execute no seu terminal:' '  export PATH="$HOME/.local/bin:$PATH"' '  musaranho token create --name teste' '  musaranho serve' '' 'Swagger: http://127.0.0.1:8080/docs' 'Esta prévia ainda não inclui inferência.'
+    printf '%s\n' 'Execute no seu terminal:' '  export PATH="$HOME/.local/bin:$PATH"' '  musaranho token create --name teste' '  musaranho serve' '' 'Swagger: http://127.0.0.1:8888/docs' 'Esta prévia ainda não inclui inferência.'
     exit 0
 )
 
