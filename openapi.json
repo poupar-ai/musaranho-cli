@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Musaranho API",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Inferência local do Musaranho. Crie um token pelo CLI e cole somente o token em Authorize. Swagger e OpenAPI são públicos; chamadas operacionais exigem Bearer."
   },
   "servers": [
@@ -465,7 +465,7 @@
             "minLength": 1,
             "enum": [
               "musaranho",
-              "musaranho-0.1"
+              "musaranho-0.2"
             ]
           },
           "questions": {
@@ -622,7 +622,7 @@
           }
         },
         "example": {
-          "model": "musaranho-0.1",
+          "model": "musaranho-0.2",
           "answers": {
             "category": {
               "type": "choice",

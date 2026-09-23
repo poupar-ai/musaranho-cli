@@ -1,5 +1,12 @@
 # Histórico
 
+## 0.3.0 — modelo musaranho-0.2
+
+- Modelo musaranho-0.2, treinado a partir do musaranho-0.1 com contrastes de documentos comerciais e de categorias de produto em português.
+- Categoria de documento passa a resistir à redação dos critérios; categoria de produto com rótulo curto sobe de 41% para 68% no teste de produtos.
+- Acerto geral de 77,13% na validação de desenvolvimento (75,85% no 0.1); erro ordinal de Score piorou de 0,43 para 0,55 e urgência documental segue fraca. Uso experimental.
+- Publicação e instalador identificam o modelo pelo manifesto, sem nome fixo.
+
 ## 0.2.0 — versão inicial com inferência
 
 - Modelo musaranho-0.1 instalado automaticamente com verificação de integridade.
