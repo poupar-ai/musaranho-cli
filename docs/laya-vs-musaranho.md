@@ -2,7 +2,7 @@
 
 Medição de **22 de setembro de 2026**, feita pela equipe do Musaranho. Nas mesmas **704 perguntas**, o candidato Musaranho atingiu **70,45% de acerto global**, contra **57,67% do Laya Typed Decisions**, melhor referência Laya por acerto global e macro nesta amostra. O Router com detecção de tarefa atingiu 56,82%.
 
-**São resultados de desenvolvimento, com limitações e diferenças por tarefa descritas abaixo. O pacote público 0.1.5 continua sem inferência neural e retorna `503 model_not_ready`.** O candidato não foi promovido a produção.
+**São resultados de desenvolvimento, com limitações e diferenças por tarefa descritas abaixo. O candidato deste estudo é anterior ao modelo distribuído na versão 0.2.0; as latências abaixo não caracterizam a nova distribuição em CPU.** O candidato não foi promovido a produção.
 
 [Dados do benchmark em JSON](../benchmarks/laya-vs-musaranho-2026-09-22.json): métricas e amostras de latência. O [comparativo Jev × Musaranho](jev-vs-musaranho.md) fica em um relatório separado.
 

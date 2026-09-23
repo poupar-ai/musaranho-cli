@@ -1,5 +1,5 @@
 {
-  "model": "musaranho-format-example",
+  "model": "musaranho",
   "answers": {
     "category": {
       "type": "choice",

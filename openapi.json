@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Musaranho API",
-    "version": "0.1.5",
-    "description": "Servidor próprio do Musaranho. Crie um token pelo CLI e cole somente o token em Authorize. A inferência ainda não está implementada: POST /v1/systemone retorna 503 model_not_ready após autenticar. Swagger e OpenAPI são públicos; chamadas operacionais exigem Bearer. A autorização fica apenas na sessão da página."
+    "version": "0.2.0",
+    "description": "Inferência local do Musaranho. Crie um token pelo CLI e cole somente o token em Authorize. Swagger e OpenAPI são públicos; chamadas operacionais exigem Bearer."
   },
   "servers": [
     {
@@ -26,7 +26,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Servidor ativo; inferência ainda indisponível.",
+            "description": "Servidor ativo; model_ready indica se o modelo foi carregado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -34,7 +34,7 @@
                 },
                 "example": {
                   "status": "running",
-                  "model_ready": false
+                  "model_ready": true
                 }
               }
             }
@@ -83,11 +83,11 @@
     "/v1/systemone": {
       "post": {
         "operationId": "systemone",
-        "summary": "Validar lote de perguntas independentes — inferência ainda indisponível",
+        "summary": "Executar lote de decisões independentes",
         "tags": [
           "Decisões"
         ],
-        "description": "Recebe perguntas independentes em questions sobre um mesmo state. Aceita lotes de 50 perguntas dentro do limite de 2 MiB do corpo JSON. Valida todo o lote; uma pergunta inválida rejeita a requisição. O contrato de resposta preserva os IDs em answers. Nesta prévia, lotes válidos retornam 503 model_not_ready: modelo e processamento neural paralelo ainda não estão integrados.",
+        "description": "Inferência local em CPU. De 1 a 50 perguntas, corpo até 2 MiB, estado até 8192 tokens e cada pergunta com catálogo até 8192 tokens. Sem truncamento. Lote inválido é rejeitado por inteiro.",
         "requestBody": {
           "required": true,
           "description": "Perguntas choice, score e noul independentes, identificadas por IDs únicos.",
@@ -98,7 +98,7 @@
               },
               "example": {
                 "state": "O documento é uma fatura que vence amanhã e precisa de revisão.",
-                "model": "musaranho-format-example",
+                "model": "musaranho",
                 "questions": {
                   "category": {
                     "type": "choice",
@@ -151,28 +151,19 @@
             }
           },
           "503": {
-            "description": "Lote válido, mas inferência não implementada; ou autenticação indisponível.",
+            "description": "Modelo ausente (model_not_ready), ocupado (model_busy), ou autenticação indisponível.",
+            "headers": {
+              "Retry-After": {
+                "description": "Segundos para nova tentativa quando model_busy.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
-                },
-                "examples": {
-                  "modelNotReady": {
-                    "value": {
-                      "error": {
-                        "code": "model_not_ready",
-                        "message": "Musaranho inference is not implemented yet"
-                      }
-                    }
-                  },
-                  "authenticationUnavailable": {
-                    "value": {
-                      "error": {
-                        "code": "authentication_unavailable"
-                      }
-                    }
-                  }
                 }
               }
             }
@@ -240,6 +231,19 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Decisões reais do modelo instalado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemOneResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha na execução do modelo."
           }
         }
       }
@@ -268,10 +272,7 @@
             ]
           },
           "model_ready": {
-            "type": "boolean",
-            "enum": [
-              false
-            ]
+            "type": "boolean"
           }
         }
       },
@@ -334,7 +335,8 @@
         "type": "object",
         "required": [
           "type",
-          "criteria"
+          "criteria",
+          "instructions"
         ],
         "additionalProperties": false,
         "properties": {
@@ -345,7 +347,9 @@
             ]
           },
           "instructions": {
-            "$ref": "#/components/schemas/OptionalJSONContent"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
           },
           "criteria": {
             "type": "object",
@@ -360,7 +364,8 @@
         "type": "object",
         "required": [
           "type",
-          "criteria"
+          "criteria",
+          "instructions"
         ],
         "additionalProperties": false,
         "properties": {
@@ -371,7 +376,9 @@
             ]
           },
           "instructions": {
-            "$ref": "#/components/schemas/OptionalJSONContent"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
           },
           "criteria": {
             "type": "array",
@@ -385,7 +392,8 @@
       "NoulQuestion": {
         "type": "object",
         "required": [
-          "type"
+          "type",
+          "instructions"
         ],
         "additionalProperties": false,
         "properties": {
@@ -396,7 +404,9 @@
             ]
           },
           "instructions": {
-            "$ref": "#/components/schemas/OptionalJSONContent"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
           },
           "criteria": {
             "type": "object",
@@ -409,7 +419,11 @@
                 "$ref": "#/components/schemas/OptionalJSONContent"
               }
             },
-            "additionalProperties": false
+            "additionalProperties": false,
+            "required": [
+              "true",
+              "false"
+            ]
           }
         }
       },
@@ -448,7 +462,11 @@
           },
           "model": {
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "enum": [
+              "musaranho",
+              "musaranho-0.1"
+            ]
           },
           "questions": {
             "type": "object",
@@ -456,7 +474,8 @@
             "description": "IDs únicos. A ordem dos IDs não estabelece dependências. Cinquenta perguntas podem compartilhar o mesmo state.",
             "additionalProperties": {
               "$ref": "#/components/schemas/Question"
-            }
+            },
+            "maxProperties": 50
           }
         }
       },
@@ -555,7 +574,7 @@
       },
       "SystemOneResponse": {
         "type": "object",
-        "description": "Contrato de saída após integração da inferência. Ainda não retornado pela API desta prévia. Exatamente uma resposta por ID de questions; nenhuma pergunta recebe resultados das outras.",
+        "description": "Uma resposta por ID de questions; perguntas independentes.",
         "required": [
           "model",
           "answers",
@@ -603,7 +622,7 @@
           }
         },
         "example": {
-          "model": "musaranho-format-example",
+          "model": "musaranho-0.1",
           "answers": {
             "category": {
               "type": "choice",

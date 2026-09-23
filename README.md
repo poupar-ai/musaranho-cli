@@ -6,31 +6,33 @@
 
 Motor de decisões tipadas **System 1**, em desenvolvimento, projetado para inferência multilíngue não autoregressiva e perguntas independentes em lote. O objetivo é produzir decisões `choice`, `score` e `noul` diretamente, sem gerar texto livre.
 
-Execute o CLI Rust e a API na sua própria máquina ou VPS, com tokens locais e Swagger embutido. A camada HTTP já valida lotes de perguntas; o modelo e o processamento neural em paralelo ainda estão em desenvolvimento.
+Execute o CLI Rust e a API na sua própria máquina ou VPS, com tokens locais e Swagger embutido. A versão 0.2.0 inclui o modelo musaranho-0.1 e inferência local em CPU para até 50 perguntas por chamada.
 
-Este repositório reúne documentação pública, exemplos de integração e o pacote de avaliação do servidor. A implementação do produto é privada; a distribuição é por executáveis compilados.
+Este repositório reúne documentação pública, exemplos de integração e o pacote de avaliação do servidor e do modelo. A implementação do produto é privada; a distribuição é por executáveis compilados.
 
 A documentação é gerada a partir do projeto principal. Sugestões de alteração podem ser enviadas pelas Issues.
 
 ## Estado do projeto
 
-**Prévia em desenvolvimento. Ainda não há uma versão de inferência disponível.**
+**Versão inicial instalável, com inferência local. Uso experimental.**
 
 | Recurso | Estado |
 | --- | --- |
 | CLI e servidor HTTP em Rust | Implementados e testados em Linux |
 | Criação, expiração e revogação de tokens | Implementadas |
 | Swagger embutido e OpenAPI | Disponíveis em `/docs` e `/openapi.json` |
-| Lotes de perguntas independentes | Entrada validada na API; formato de saída testado com 50 perguntas |
+| Lotes de perguntas independentes | Inferência de 1 a 50 perguntas na mesma chamada |
 | Contrato JSON `choice`, `score` e `noul` | Compatível nos campos comuns com Jev/Laya |
-| Modelo treinado e inferência | Candidatos privados em avaliação; indisponíveis no pacote público |
-| Executável de avaliação 0.1.5 | Linux x86_64; mínimo de glibc em `cli/release.json` |
+| Modelo treinado e inferência | musaranho-0.1 disponível no instalador |
+| Executável de avaliação 0.2.0 | Linux x86_64; mínimo de glibc em `cli/release.json` |
 
-O endpoint de inferência retorna `503 model_not_ready` após autenticar. Os exemplos de respostas são ilustrativos; não são previsões ou resultados de qualidade do modelo.
+O instalador baixa e verifica o executável e o modelo (download do modelo: aproximadamente 1,18 GB; pesos instalados: 1,30 GB). Não exige Python, Rust ou GPU. O processamento ocorre na sua máquina.
 
-## Benchmark Laya × Musaranho
+O checkpoint desta versão atingiu **75,85% de acerto em 704 perguntas** na validação reutilizada durante o desenvolvimento. Esse resultado não garante acerto em dados novos. Há limitações em consultas a registros e textos longos; o limite técnico de 8.192 tokens não garante compreensão adequada nesse comprimento.
 
-Medição de 22/09/2026: **256 casos e 704 perguntas**, em português, inglês e espanhol. Comparação do Musaranho experimental com três variantes e dois modos do roteador oficial do Laya 0.3.5.
+## Benchmark histórico Laya × Musaranho
+
+Medição de um candidato anterior, diferente do modelo instalado nesta versão: **256 casos e 704 perguntas**, em português, inglês e espanhol. Comparação do Musaranho experimental com três variantes e dois modos do roteador oficial do Laya 0.3.5.
 
 | Modelo | Acerto global |
 | --- | ---: |
@@ -43,7 +45,7 @@ Medição de 22/09/2026: **256 casos e 704 perguntas**, em português, inglês e
 
 Musaranho ganha **12,78 pontos percentuais** sobre o melhor Laya nesta amostra. No cenário de contexto longo com 50 perguntas, seu p50 foi **36,59 ms**, 9,50× mais rápido que o Laya mais rápido nesse cenário. **Laya Typed vence em Score (70,98% contra 61,14%) e nos workflows de Typed Decisions (84,92% contra 60,66%). Laya também tem menor latência com uma pergunta.**
 
-São resultados de validação reutilizada durante o desenvolvimento, com os limites de contexto do Laya ampliados para preservar as entradas. Não demonstram superioridade geral em dados novos. O candidato não passou na triagem de regressões e ainda não está disponível no CLI público. Ainda é necessária uma avaliação independente.
+São resultados de validação reutilizada durante o desenvolvimento, com os limites de contexto do Laya ampliados para preservar as entradas. Não demonstram superioridade geral em dados novos. O candidato não passou na triagem de regressões e não é o checkpoint distribuído nesta versão. Ainda é necessária uma avaliação independente.
 
 Consulte o [benchmark completo, metodologia e limitações](docs/laya-vs-musaranho.md) e os [dados em JSON](benchmarks/laya-vs-musaranho-2026-09-22.json). O [comparativo Jev × Musaranho](docs/jev-vs-musaranho.md) documenta separadamente uma avaliação anterior.
 
@@ -59,7 +61,7 @@ musaranho token create --name teste
 musaranho serve
 ```
 
-O instalador verifica o SHA-256 do pacote e instala em `~/.local/bin`, sem `sudo`. Para uso permanente, inclua esse diretório no PATH da configuração do seu shell.
+O instalador verifica o SHA-256 dos pacotes e instala em `~/.local/bin`, sem `sudo`. Para uso permanente, inclua esse diretório no PATH da configuração do seu shell.
 
 **Para testar agora com esta cópia local**, execute na raiz da pasta pública:
 
@@ -70,7 +72,7 @@ musaranho token create --name teste
 musaranho serve
 ```
 
-Abra `http://127.0.0.1:8888/docs`, clique em **Authorize** e cole o token. Execute `GET /health` para testar. Esta prévia não exige Rust, Python ou GPU. Consulte os [termos de avaliação](BINARY-LICENSE.txt).
+Abra `http://127.0.0.1:8888/docs`, clique em **Authorize** e cole o token. Execute `GET /health` e confira `model_ready: true`. Depois execute `POST /v1/systemone` com o exemplo do Swagger. Esta prévia não exige Rust, Python ou GPU. Consulte os [termos de avaliação](BINARY-LICENSE.txt).
 
 ## Uso do CLI
 

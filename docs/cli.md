@@ -9,6 +9,7 @@ Cada instalação administra seus próprios tokens. A criação e a revogação 
 | `musaranho --help` | Exibir ajuda |
 | `musaranho --version` | Exibir versão |
 | `musaranho serve` | Iniciar servidor em `127.0.0.1:8888` |
+| `musaranho serve --model-dir /caminho/musaranho-0.1` | Usar modelo instalado em outro diretório |
 | `musaranho serve --detach` | Iniciar em segundo plano, independente do terminal |
 | `musaranho serve --bind 127.0.0.1:9000` | Escolher endereço e porta |
 | `musaranho token create --name app` | Criar token com validade de 30 dias |

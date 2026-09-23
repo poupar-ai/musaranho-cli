@@ -1,5 +1,12 @@
 # Histórico
 
+## 0.2.0 — versão inicial com inferência
+
+- Modelo musaranho-0.1 instalado automaticamente com verificação de integridade.
+- Inferência local em CPU para Choice, Score e Noul, sem Python ou GPU.
+- Lotes de até 50 perguntas, limite de 8.192 tokens sem truncamento silencioso e controle de concorrência.
+- Checkpoint com 75,85% na validação de desenvolvimento; uso experimental e limitações de generalização.
+
 ## 0.1.5 — prévia de avaliação
 
 - Resumo do benchmark Laya × Musaranho no README, com acerto, latência e limitações por tarefa.

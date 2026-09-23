@@ -4,9 +4,9 @@
 - [systemone.response.json](systemone.response.json): resposta ilustrativa no contrato comum. Não é resultado de um modelo treinado.
 - [Caddyfile](Caddyfile): proxy HTTPS; substitua o domínio antes de usar.
 
-O endpoint ainda retorna `503 model_not_ready`; enviar o JSON não executa inferência. As opções e o nome do modelo nos exemplos não anunciam um modelo disponível.
+O instalador inclui o modelo musaranho-0.1. A requisição executa inferência real; o arquivo de resposta continua ilustrativo e não promete essas probabilidades.
 
-Com o servidor em execução e a partir da raiz deste repositório, você pode verificar a autenticação da rota:
+Com o servidor em execução e a partir da raiz deste repositório, você pode executar a inferência:
 
 ```bash
 read -r -s -p 'Token: ' MUSARANHO_TOKEN
@@ -19,4 +19,4 @@ printf 'Authorization: Bearer %s\n' "$MUSARANHO_TOKEN" |
 unset MUSARANHO_TOKEN
 ```
 
-Resultado esperado nesta prévia: `503 model_not_ready` com token válido; `401 unauthorized` com token inválido. Para chamar uma VPS, use a URL HTTPS da sua instalação.
+Resultado esperado nesta prévia: `200` com token válido e modelo instalado; `401 unauthorized` com token inválido. Para chamar uma VPS, use a URL HTTPS da sua instalação.

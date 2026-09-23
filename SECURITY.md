@@ -1,6 +1,6 @@
 # Segurança
 
-O projeto está em prévia de desenvolvimento. Ainda não há versão de inferência nem compromisso de suporte de longo prazo.
+O projeto está em prévia de desenvolvimento. A inferência está disponível para avaliação, sem compromisso de suporte de longo prazo.
 
 ## Reportar uma vulnerabilidade
 

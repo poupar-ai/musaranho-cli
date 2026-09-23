@@ -1,6 +1,6 @@
 {
   "state": "O documento é uma fatura que vence amanhã e precisa de revisão.",
-  "model": "musaranho-format-example",
+  "model": "musaranho",
   "questions": {
     "category": {
       "type": "choice",

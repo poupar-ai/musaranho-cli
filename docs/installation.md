@@ -2,9 +2,9 @@
 
 ## Disponibilidade atual
 
-Há um pacote de avaliação **0.1.5 para Linux x86_64**, contendo CLI, servidor, autenticação e Swagger. Ele não inclui modelo treinado. O executável requer a versão mínima de glibc indicada em `cli/release.json` (`glibc_min`), `libgcc_s.so.1` e as bibliotecas padrão do sistema; não exige Rust, Python ou GPU nesta prévia.
+A versão **0.2.0 para Linux x86_64** inclui CLI, autenticação, Swagger e o modelo **musaranho-0.1**, executado localmente em CPU. Não exige Rust, Python ou GPU. O mínimo de glibc está em `cli/release.json`; requer também `libgcc_s.so.1` e bibliotecas padrão do sistema.
 
-O CLI e a autenticação foram testados em Linux x86_64. O suporte a outras plataformas e os requisitos de memória, GPU e runtime do modelo serão informados quando houver uma versão de inferência. Não há suporte anunciado para Windows nesta etapa.
+O download do modelo tem aproximadamente **1,18 GB**, com **1,30 GB** instalado. Reserve pelo menos **4 GB de disco livre** para baixar e extrair. Para contextos curtos, reserve 4 GB de RAM para a instalação. Para utilizar o limite de 8.192 tokens, recomendamos 24 GB de RAM disponível; o processamento em CPU pode levar minutos por chamada. O consumo depende também do catálogo de opções. Esta versão não oferece aceleração por GPU nem suporte a Windows/macOS.
 
 ## Instalar com curl
 
@@ -17,7 +17,7 @@ export PATH="$HOME/.local/bin:$PATH"
 musaranho --version
 ```
 
-O instalador baixa o pacote de `cli/`, verifica seu SHA-256 e testa a versão do executável antes de instalá-lo em `~/.local/bin/musaranho`. Os termos e avisos de terceiros ficam em `~/.local/share/musaranho-cli/`. Requer Bash, curl, tar e ferramentas padrão do Linux, incluindo sha256sum. Não usa sudo e não inicia o servidor automaticamente.
+O instalador baixa o executável de `cli/` e o modelo dos assets da release, verifica os SHA-256 e testa a versão antes de instalar em `~/.local/bin/musaranho`. Os pesos ficam em `~/.local/share/musaranho-cli/models/musaranho-0.1`. Uma falha de download ou integridade preserva o executável instalado. Modelos existentes são verificados e nunca sobrescritos. Os termos e avisos de terceiros ficam em `~/.local/share/musaranho-cli/`. Requer Bash, curl, tar e ferramentas padrão do Linux, incluindo sha256sum. Não usa sudo e não inicia o servidor automaticamente.
 
 O `export` vale para o terminal atual. Adicione `~/.local/bin` ao PATH da configuração do seu shell para uso permanente.
 
@@ -31,19 +31,9 @@ export PATH="$HOME/.local/bin:$PATH"
 musaranho --version
 ```
 
-## Extração manual
+A instalação pela cópia local também baixa o modelo pela internet, salvo se `cli/musaranho-0.1.tar.gz` já estiver presente. Para instalação offline, obtenha previamente esse asset da mesma release e copie-o para `cli/`.
 
-O pacote é `cli/musaranho-0.1.5-x86_64-unknown-linux-gnu.tar.gz`, acompanhado de `cli/SHA256SUMS`. Para executar sem instalar:
-
-```bash
-(cd cli && sha256sum -c SHA256SUMS)
-MUSARANHO_TEST_DIR="$(mktemp -d)"
-tar -xzf cli/musaranho-0.1.5-x86_64-unknown-linux-gnu.tar.gz -C "$MUSARANHO_TEST_DIR"
-cd "$MUSARANHO_TEST_DIR/musaranho-0.1.5-x86_64-unknown-linux-gnu"
-./musaranho --version
-```
-
-O CLI compilado não exige acesso ao código-fonte, Cargo ou Python. As dependências do futuro runtime de inferência serão especificadas na release.
+Para utilizar um pacote do modelo extraído em outro local, inicie com `musaranho serve --model-dir /caminho/musaranho-0.1`. O servidor verifica a integridade antes de abrir a porta; esse carregamento pode levar alguns segundos.
 
 ## Primeiro acesso
 
@@ -54,7 +44,7 @@ musaranho serve
 
 Crie o token antes de iniciar o servidor pela primeira vez. O segredo é mostrado apenas na criação; guarde-o em local seguro. Os comandos usam o mesmo diretório de dados da conta atual. Consulte [administração de tokens](cli.md) para escolher outro diretório.
 
-O servidor inicia em primeiro plano, na porta `8888` de localhost. `Ctrl+C` encerra o processo. A rota `/health` permite verificar o servidor com um token; a rota de inferência ainda retorna `503 model_not_ready`.
+O servidor inicia em primeiro plano, na porta `8888` de localhost. `Ctrl+C` encerra o processo. A rota `/health` permite verificar o servidor com um token; confira `model_ready: true` antes de chamar a inferência.
 
 Se o navegador mostrar conexão recusada, confira se `musaranho serve` está em execução e abra `http://127.0.0.1:8888/docs`. Instalar o CLI não inicia o servidor.
 

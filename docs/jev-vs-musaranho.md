@@ -4,7 +4,7 @@ Medição de **22 de setembro de 2026**, realizada pela equipe do Musaranho. **J
 
 Continuação deste estudo: [comparação com Laya](laya-vs-musaranho.md). Os números abaixo correspondem à avaliação anterior.
 
-**Os candidatos avaliados são privados e experimentais. O pacote público Musaranho 0.1.5 continua sem inferência: `/v1/systemone` retorna `503 model_not_ready`.** Este relatório não anuncia uma versão de modelo disponível para instalação.
+**Os candidatos avaliados são privados e experimentais. São diferentes do modelo instalado pela versão 0.2.0; as latências abaixo não caracterizam essa distribuição em CPU.** Este relatório não anuncia uma versão de modelo disponível para instalação.
 
 Os [resultados agregados em JSON](../benchmarks/jev-vs-musaranho-2026-09-22.json) contêm métricas, amostras de latência e entradas do microbenchmark. Não há afiliação ou validação deste estudo pela TypeSafe ou pelo OpenRouter.
 

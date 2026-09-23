@@ -33,6 +33,6 @@ Aplicações remotas passam a usar `https://musaranho.seu-dominio.com`, mantendo
 
 Mantenha backup privado do diretório de tokens e mantenha o executável atualizado. Configure limites de tráfego no proxy de acordo com a capacidade da máquina; esta prévia não inclui quotas por token ou limitação de requisições.
 
-O endpoint `/health` exige token e informa separadamente se o modelo está pronto. Nesta etapa, `model_ready` é `false` e a inferência retorna `503`; a prévia serve para validar instalação e autenticação.
+O endpoint `/health` exige token e informa separadamente se o modelo está pronto. Após instalar o modelo, confira `model_ready: true`. A API processa um lote por vez; chamadas simultâneas recebem `503 model_busy` e `Retry-After: 1`.
 
-Tokens protegem a API contra chamadas não autorizadas. Eles não impedem o administrador da máquina de acessar arquivos locais, incluindo futuros pesos distribuídos para inferência.
+Tokens protegem a API contra chamadas não autorizadas. Eles não impedem o administrador da máquina de acessar arquivos locais, incluindo pesos distribuídos para inferência.
