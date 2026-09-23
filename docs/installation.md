@@ -2,7 +2,7 @@
 
 ## Disponibilidade atual
 
-A versão **0.2.0 para Linux x86_64** inclui CLI, autenticação, Swagger e o modelo **musaranho-0.1**, executado localmente em CPU. Não exige Rust, Python ou GPU. O mínimo de glibc está em `cli/release.json`; requer também `libgcc_s.so.1` e bibliotecas padrão do sistema.
+A versão **0.2.2 para Linux x86_64** inclui CLI, autenticação, Swagger e o modelo **musaranho-0.1**, executado localmente em CPU. Não exige Rust, Python ou GPU. O mínimo de glibc está em `cli/release.json`; requer também `libgcc_s.so.1` e bibliotecas padrão do sistema.
 
 O download do modelo tem aproximadamente **1,18 GB**, com **1,30 GB** instalado. Reserve pelo menos **4 GB de disco livre** para baixar e extrair. Para contextos curtos, reserve 4 GB de RAM para a instalação. Para utilizar o limite de 8.192 tokens, recomendamos 24 GB de RAM disponível; o processamento em CPU pode levar minutos por chamada. O consumo depende também do catálogo de opções. Esta versão não oferece aceleração por GPU nem suporte a Windows/macOS.
 
@@ -17,9 +17,18 @@ export PATH="$HOME/.local/bin:$PATH"
 musaranho --version
 ```
 
-O instalador baixa o executável de `cli/` e o modelo dos assets da release, verifica os SHA-256 e testa a versão antes de instalar em `~/.local/bin/musaranho`. Os pesos ficam em `~/.local/share/musaranho-cli/models/musaranho-0.1`. Uma falha de download ou integridade preserva o executável instalado. Modelos existentes são verificados e nunca sobrescritos. Os termos e avisos de terceiros ficam em `~/.local/share/musaranho-cli/`. Requer Bash, curl, tar e ferramentas padrão do Linux, incluindo sha256sum. Não usa sudo e não inicia o servidor automaticamente.
+O instalador baixa o executável de `cli/` e o modelo dos assets da release, verifica os SHA-256 e testa a versão antes de instalar em `~/.local/bin/musaranho`. O download do modelo exibe uma barra de progresso. Os pesos ficam em `~/.local/share/musaranho-cli/models/musaranho-0.1`. Uma falha de download ou integridade preserva o executável instalado. Modelos existentes são verificados e nunca sobrescritos. Os termos e avisos de terceiros ficam em `~/.local/share/musaranho-cli/`. Requer Bash, curl, tar e ferramentas padrão do Linux, incluindo sha256sum. Não usa sudo e não inicia o servidor automaticamente.
 
 O `export` vale para o terminal atual. Adicione `~/.local/bin` ao PATH da configuração do seu shell para uso permanente.
+
+## Atualizar uma instalação existente
+
+```bash
+musaranho update
+musaranho --version
+```
+
+A atualização usa a distribuição oficial mais recente em `main`, preserva os tokens e reutiliza o modelo já instalado após verificar sua integridade. Reinicie o servidor para carregar a nova versão. Se sua versão ainda não tiver `update`, repita uma vez o comando de instalação com curl acima; isso também preserva os tokens.
 
 ## Instalar pela cópia local
 

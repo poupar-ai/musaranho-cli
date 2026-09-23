@@ -24,7 +24,7 @@ main() (
         source="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
     fi
 
-    package=musaranho-0.2.0-x86_64-unknown-linux-gnu
+    package=musaranho-0.2.2-x86_64-unknown-linux-gnu
     archive="$package.tar.gz"
     temporary="$(mktemp -d)"
     staged_binary=''
@@ -45,7 +45,7 @@ main() (
     fi
     (cd "$temporary" && printf '%s  %s\n' "$checksum" "$archive" | sha256sum -c -)
     tar -xzf "$temporary/$archive" -C "$temporary" --no-same-owner --no-same-permissions
-    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.2.0' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
+    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.2.2' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
 
     bin_dir="$HOME/.local/bin"
     notices="$HOME/.local/share/musaranho-cli"
@@ -64,7 +64,7 @@ main() (
         else
             command -v curl >/dev/null || { echo 'Instale curl para baixar o modelo.' >&2; exit 1; }
             printf 'Baixando o modelo; este download tem aproximadamente 1,2 GB.\n'
-            curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' "$model_url" -o "$temporary/$model_archive"
+            curl --fail --progress-bar --show-error --location --proto '=https' --proto-redir '=https' "$model_url" -o "$temporary/$model_archive"
         fi
         (cd "$temporary" && printf '%s  %s\n' "$model_checksum" "$model_archive" | sha256sum -c -)
         mkdir -p -- "$notices/models"

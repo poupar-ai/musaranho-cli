@@ -8,6 +8,7 @@ Cada instalação administra seus próprios tokens. A criação e a revogação 
 | --- | --- |
 | `musaranho --help` | Exibir ajuda |
 | `musaranho --version` | Exibir versão |
+| `musaranho update` | Atualizar a instalação do usuário pela distribuição pública oficial |
 | `musaranho serve` | Iniciar servidor em `127.0.0.1:8888` |
 | `musaranho serve --model-dir /caminho/musaranho-0.1` | Usar modelo instalado em outro diretório |
 | `musaranho serve --detach` | Iniciar em segundo plano, independente do terminal |
@@ -18,6 +19,17 @@ Cada instalação administra seus próprios tokens. A criação e a revogação 
 | `musaranho token revoke 1` | Revogar token pelo ID |
 
 `--expires-in-days` aceita valores de 1 a 36500. O nome identifica a integração; não precisa ser único. Todos os tokens concedem o mesmo acesso de consumo à API. Não há cotas ou permissões individuais por token nesta etapa.
+
+## Atualizar
+
+```bash
+musaranho update
+musaranho --version
+```
+
+O comando baixa o instalador oficial por HTTPS e atualiza `~/.local/bin/musaranho`, sem `sudo`. Usa as mesmas verificações de integridade da instalação e preserva os tokens. O modelo já instalado é verificado e reutilizado; quando for necessário baixá-lo, uma barra mostra o progresso. Requer Bash, curl e as ferramentas de instalação descritas no [guia](installation.md).
+
+Um servidor que já está em execução continua usando a versão anterior até ser reiniciado. Se o executável antigo ainda não reconhecer `update`, execute uma vez o comando de instalação com curl do guia para obter uma versão que ofereça esse comando.
 
 ## Servidor em segundo plano
 

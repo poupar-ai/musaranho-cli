@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.2",
   "channel": "preview",
   "target": "x86_64-unknown-linux-gnu",
   "glibc_min": "2.34",
@@ -11,7 +11,7 @@
     "bytes": 1180007941,
     "url": "https://github.com/poupar-ai/musaranho-cli/releases/download/v0.2.0/musaranho-0.1.tar.gz"
   },
-  "archive": "musaranho-0.2.0-x86_64-unknown-linux-gnu.tar.gz",
-  "sha256": "bc567ea6d7bdff6cf1a3a0eeae38d3231581366f1366d8d8ba0ab028c5ede82a",
+  "archive": "musaranho-0.2.2-x86_64-unknown-linux-gnu.tar.gz",
+  "sha256": "0b7430b1ba84bcd7ae46eac3d9c44d3630f95268a9a844b1607d24967acbd1af",
   "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
 }
