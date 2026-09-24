@@ -6,7 +6,7 @@
 
 Motor de decisões tipadas **System 1**, em desenvolvimento, projetado para inferência multilíngue não autoregressiva e perguntas independentes em lote. O objetivo é produzir decisões `choice`, `score` e `noul` diretamente, sem gerar texto livre.
 
-Execute o CLI Rust e a API na sua própria máquina ou VPS, com tokens locais e Swagger embutido. A versão 0.2.3 inclui o modelo musaranho-0.2 e inferência local em CPU para até 50 perguntas por chamada.
+Execute o CLI Rust e a API na sua própria máquina ou VPS, com tokens locais e Swagger embutido. A versão 0.2.4 inclui o modelo musaranho-0.2 e inferência local em CPU para até 50 perguntas por chamada.
 
 Este repositório reúne documentação pública, exemplos de integração e o pacote de avaliação do servidor e do modelo. A implementação do produto é privada; a distribuição é por executáveis compilados.
 
@@ -24,7 +24,7 @@ A documentação é gerada a partir do projeto principal. Sugestões de alteraç
 | Lotes de perguntas independentes | Inferência de 1 a 50 perguntas na mesma chamada |
 | Contrato JSON `choice`, `score` e `noul` | Compatível nos campos comuns com Jev/Laya |
 | Modelo treinado e inferência | musaranho-0.2 disponível no instalador |
-| Executável de avaliação 0.2.3 | Linux x86_64; mínimo de glibc em `cli/release.json` |
+| Executável de avaliação 0.2.4 | Linux x86_64; mínimo de glibc em `cli/release.json` |
 
 O instalador baixa e verifica o executável e o modelo (download do modelo: aproximadamente 1,18 GB; pesos instalados: 1,30 GB). Não exige Python, Rust ou GPU. O processamento ocorre na sua máquina.
 

@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Musaranho API",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "Inferência local do Musaranho. Crie um token pelo CLI e cole somente o token em Authorize. Swagger e OpenAPI são públicos; chamadas operacionais exigem Bearer."
   },
   "servers": [

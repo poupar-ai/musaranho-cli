@@ -2,7 +2,7 @@
 
 ## Disponibilidade atual
 
-A versão **0.2.3 para Linux x86_64** inclui CLI, autenticação, Swagger e o modelo **musaranho-0.2**, executado localmente em CPU. Não exige Rust, Python ou GPU. O mínimo de glibc está em `cli/release.json`; requer também `libgcc_s.so.1` e bibliotecas padrão do sistema.
+A versão **0.2.4 para Linux x86_64** inclui CLI, autenticação, Swagger e o modelo **musaranho-0.2**, executado localmente em CPU. Não exige Rust, Python ou GPU. O mínimo de glibc está em `cli/release.json`; requer também `libgcc_s.so.1` e bibliotecas padrão do sistema.
 
 O download do modelo tem aproximadamente **1,18 GB**, com **1,30 GB** instalado. Reserve pelo menos **4 GB de disco livre** para baixar e extrair. Para contextos curtos, reserve 4 GB de RAM para a instalação. Para utilizar o limite de 8.192 tokens, recomendamos 24 GB de RAM disponível; o processamento em CPU pode levar minutos por chamada. O consumo depende também do catálogo de opções. Esta versão não oferece aceleração por GPU nem suporte a Windows/macOS.
 
