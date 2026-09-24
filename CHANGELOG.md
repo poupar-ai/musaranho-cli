@@ -1,6 +1,11 @@
 # Histórico
 
-## 0.3.0 — modelo musaranho-0.2
+## 0.2.6 — modelo musaranho-0.3 e arena de xadrez
+
+- Modelo musaranho-0.3: acerto geral de 79,4% na validação de desenvolvimento (77,1% no 0.2, 75,9% no 0.1), com melhora em categoria de produto e de documento. Uso experimental.
+- Novo comando `musaranho chess`: o modelo instalado joga xadrez contra o Jev, com visualizador local, probabilidades de cada lance, tokens gastos e avaliação opcional por motor UCI. A chave da OpenRouter vem só da variável `OPENROUTER_API_KEY`.
+
+## 0.2.3 — modelo musaranho-0.2
 
 - Modelo musaranho-0.2, treinado a partir do musaranho-0.1 com contrastes de documentos comerciais e de categorias de produto em português.
 - Categoria de documento passa a resistir à redação dos critérios; categoria de produto com rótulo curto sobe de 41% para 68% no teste de produtos.

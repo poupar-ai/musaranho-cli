@@ -10,7 +10,9 @@ Cada instalação administra seus próprios tokens. A criação e a revogação 
 | `musaranho --version` | Exibir versão |
 | `musaranho update` | Atualizar a instalação do usuário pela distribuição pública oficial |
 | `musaranho serve` | Iniciar servidor em `127.0.0.1:8888` |
-| `musaranho serve --model-dir /caminho/musaranho-0.2` | Usar modelo instalado em outro diretório |
+| `musaranho serve --model-dir /caminho/musaranho-0.3` | Usar modelo instalado em outro diretório |
+| `musaranho chess` | Jogar xadrez contra o Jev com visualizador em http://127.0.0.1:8890 (exige `OPENROUTER_API_KEY`) |
+| `musaranho chess --opponent random --engine /caminho/stockfish` | Jogar sem chave, contra lances aleatórios, com avaliação do motor |
 | `musaranho serve --detach` | Iniciar em segundo plano, independente do terminal |
 | `musaranho serve --bind 127.0.0.1:9000` | Escolher endereço e porta |
 | `musaranho token create --name app` | Criar token com validade de 30 dias |

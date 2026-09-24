@@ -1,17 +1,17 @@
 {
-  "version": "0.2.4",
+  "version": "0.2.6",
   "channel": "preview",
   "target": "x86_64-unknown-linux-gnu",
   "glibc_min": "2.34",
   "inference_available": true,
   "model": {
-    "id": "musaranho-0.2",
-    "archive": "musaranho-0.2.tar.gz",
-    "sha256": "442223f5819eba23a94798e622d48547c232816dc836ab7e04648ca51aa04f30",
-    "bytes": 1180017612,
-    "url": "https://github.com/poupar-ai/musaranho-cli/releases/download/v0.2.4/musaranho-0.2.tar.gz"
+    "id": "musaranho-0.3",
+    "archive": "musaranho-0.3.tar.gz",
+    "sha256": "3bb5fb9900e233a6bbe2a40e635d6481659591d840649e080d554918e713cfd2",
+    "bytes": 1180021205,
+    "url": "https://github.com/poupar-ai/musaranho-cli/releases/download/v0.2.6/musaranho-0.3.tar.gz"
   },
-  "archive": "musaranho-0.2.4-x86_64-unknown-linux-gnu.tar.gz",
-  "sha256": "6aafbcbd969056555053736765e2b7b1d22293660c182d4aa819c2d34641358f",
+  "archive": "musaranho-0.2.6-x86_64-unknown-linux-gnu.tar.gz",
+  "sha256": "868dc8ac046c38603d878b674c90d4acd788ef0b788b57109f0f31bd67ae86bc",
   "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
 }

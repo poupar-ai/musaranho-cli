@@ -6,7 +6,7 @@
 
 Motor de decisões tipadas **System 1**, em desenvolvimento, projetado para inferência multilíngue não autoregressiva e perguntas independentes em lote. O objetivo é produzir decisões `choice`, `score` e `noul` diretamente, sem gerar texto livre.
 
-Execute o CLI Rust e a API na sua própria máquina ou VPS, com tokens locais e Swagger embutido. A versão 0.2.4 inclui o modelo musaranho-0.2 e inferência local em CPU para até 50 perguntas por chamada.
+Execute o CLI Rust e a API na sua própria máquina ou VPS, com tokens locais e Swagger embutido. A versão 0.2.6 inclui o modelo musaranho-0.3 e inferência local em CPU para até 50 perguntas por chamada.
 
 Este repositório reúne documentação pública, exemplos de integração e o pacote de avaliação do servidor e do modelo. A implementação do produto é privada; a distribuição é por executáveis compilados.
 
@@ -23,8 +23,8 @@ A documentação é gerada a partir do projeto principal. Sugestões de alteraç
 | Swagger embutido e OpenAPI | Disponíveis em `/docs` e `/openapi.json` |
 | Lotes de perguntas independentes | Inferência de 1 a 50 perguntas na mesma chamada |
 | Contrato JSON `choice`, `score` e `noul` | Compatível nos campos comuns com Jev/Laya |
-| Modelo treinado e inferência | musaranho-0.2 disponível no instalador |
-| Executável de avaliação 0.2.4 | Linux x86_64; mínimo de glibc em `cli/release.json` |
+| Modelo treinado e inferência | musaranho-0.3 disponível no instalador |
+| Executável de avaliação 0.2.6 | Linux x86_64; mínimo de glibc em `cli/release.json` |
 
 O instalador baixa e verifica o executável e o modelo (download do modelo: aproximadamente 1,18 GB; pesos instalados: 1,30 GB). Não exige Python, Rust ou GPU. O processamento ocorre na sua máquina.
 
@@ -48,6 +48,39 @@ Musaranho ganha **12,78 pontos percentuais** sobre o melhor Laya nesta amostra. 
 São resultados de validação reutilizada durante o desenvolvimento, com os limites de contexto do Laya ampliados para preservar as entradas. Não demonstram superioridade geral em dados novos. O candidato não passou na triagem de regressões e não é o checkpoint distribuído nesta versão. Ainda é necessária uma avaliação independente.
 
 Consulte o [benchmark completo, metodologia e limitações](docs/laya-vs-musaranho.md) e os [dados em JSON](benchmarks/laya-vs-musaranho-2026-09-22.json). O [comparativo Jev × Musaranho](docs/jev-vs-musaranho.md) documenta separadamente uma avaliação anterior.
+
+## Xadrez: Musaranho × Jev
+
+`musaranho chess` coloca o modelo instalado para jogar xadrez contra o Jev, lance a lance, com um visualizador local. Cada lado recebe a posição em texto e escolhe entre todos os lances legais, descritos em português, por uma única pergunta `choice`. Não há busca nem cálculo de variantes: é a mesma decisão System 1 da API, aplicada a um problema com gabarito objetivo. Um motor UCI opcional, como o Stockfish, avalia cada lance jogado.
+
+<p align="center">
+  <img src="assets/arena-musaranho-jev.png" alt="Visualizador da arena: tabuleiro, cabo de guerra Musaranho × Jev, última decisão com probabilidades, lista de lances e tokens gastos" width="720">
+</p>
+
+<p align="center">
+  <img src="assets/arena-musaranho-jev.gif" alt="Partida em andamento no visualizador" width="720">
+</p>
+
+```bash
+export OPENROUTER_API_KEY=sk-or-...   # chave da OpenRouter, só no seu ambiente
+musaranho chess --games 2
+```
+
+Abra `http://127.0.0.1:8890`. O visualizador mostra o tabuleiro, um cabo de guerra azul (Musaranho) × vermelho (Jev) com quem está melhor, as alternativas mais prováveis da última decisão, a lista de lances e os tokens gastos por jogador. Ao terminar, um botão inicia outra partida. Sem chave, `--opponent random` joga contra lances aleatórios; `--engine /caminho/stockfish` liga a avaliação por motor. A chave nunca é gravada nem exibida.
+
+Seis partidas do musaranho-0.3 contra o Jev 1.13, com aberturas aleatórias de quatro lances, limite de 60 lances e Stockfish 19 avaliando cada lance:
+
+| Medida | Musaranho 0.3 | Jev 1.13 |
+|---|---:|---:|
+| Vitórias / empates / derrotas | 0 / 4 / 2 | 2 / 4 / 0 |
+| Perda média por lance, em centipeões | 148 | 150 |
+| Lance igual ao melhor do motor | 28,9% | 27,1% |
+| Lance entre os três melhores do motor | 50,7% | 49,2% |
+| Lances com perda acima de 200 cp | 19,4% | 19,1% |
+| Latência média por lance | 920 ms, CPU local | 681 ms, API |
+| Custo | local | cerca de US$ 0,01 por partida |
+
+Na qualidade média por lance os dois ficaram empatados; nas partidas, o Jev converteu duas vantagens e o Musaranho nenhuma. Seis partidas não sustentam conclusão geral, e o comando existe para observar como cada modelo decide, não para jogar xadrez de verdade.
 
 ## Baixar e testar
 

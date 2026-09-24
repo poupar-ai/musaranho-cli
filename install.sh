@@ -24,7 +24,7 @@ main() (
         source="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
     fi
 
-    package=musaranho-0.2.4-x86_64-unknown-linux-gnu
+    package=musaranho-0.2.6-x86_64-unknown-linux-gnu
     archive="$package.tar.gz"
     temporary="$(mktemp -d)"
     staged_binary=''
@@ -45,12 +45,12 @@ main() (
     fi
     (cd "$temporary" && printf '%s  %s\n' "$checksum" "$archive" | sha256sum -c -)
     tar -xzf "$temporary/$archive" -C "$temporary" --no-same-owner --no-same-permissions
-    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.2.4' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
+    [[ "$("$temporary/$package/musaranho" --version)" == 'musaranho 0.2.6' ]] || { echo 'Executável incompatível ou versão inesperada.' >&2; exit 1; }
 
     bin_dir="$HOME/.local/bin"
     notices="$HOME/.local/share/musaranho-cli"
     mkdir -p -- "$bin_dir" "$notices"
-    model=musaranho-0.2
+    model=musaranho-0.3
     model_dir="$notices/models/$model"
     read -r model_checksum model_archive model_url extra < "$temporary/$package/model-download.txt"
     [[ "$model_checksum" =~ ^[[:xdigit:]]{64}$ && "$model_archive" == "$model.tar.gz" && "$model_url" == https://* && -z "$extra" ]] || { echo 'Manifesto do modelo inválido.' >&2; exit 1; }
@@ -83,7 +83,7 @@ main() (
     mv -fT -- "$staged_binary" "$bin_dir/musaranho"
     staged_binary=''
     printf '\nMusaranho instalado em %s/musaranho\nLicenças em %s\n\n' "$bin_dir" "$notices"
-    printf '%s\n' 'Execute no seu terminal:' '  export PATH="$HOME/.local/bin:$PATH"' '  musaranho token create --name teste' '  musaranho serve' '' 'Swagger: http://127.0.0.1:8888/docs' 'Modelo musaranho-0.2 instalado para inferência local em CPU.'
+    printf '%s\n' 'Execute no seu terminal:' '  export PATH="$HOME/.local/bin:$PATH"' '  musaranho token create --name teste' '  musaranho serve' '' 'Swagger: http://127.0.0.1:8888/docs' 'Modelo musaranho-0.3 instalado para inferência local em CPU.'
     exit 0
 )
 

@@ -42,7 +42,7 @@ unset MUSARANHO_TOKEN
 
 ## Inferência local
 
-`POST /v1/systemone` executa o modelo instalado e retorna `200` com decisões reais. Use `model: "musaranho"` ou `model: "musaranho-0.2"`; a resposta identifica a versão efetivamente executada.
+`POST /v1/systemone` executa o modelo instalado e retorna `200` com decisões reais. Use `model: "musaranho"` ou `model: "musaranho-0.3"`; a resposta identifica a versão efetivamente executada.
 
 Um lote é processado por vez para limitar o uso de memória. Chamadas simultâneas recebem `503 model_busy` com `Retry-After: 1`. Sem modelo instalado, retorna `503 model_not_ready`. As entradas não são enviadas a serviços externos.
 
@@ -60,7 +60,7 @@ O limite é de **8.192 tokens para o estado** e, separadamente, **8.192 tokens p
 
 A requisição contém `state`, `model` e `questions`. Cada pergunta tem um ID escolhido pela aplicação, `type` e `instructions`. Choice usa critérios nomeados; Score usa uma lista ordenada; Noul representa uma decisão sim/não. Veja o [exemplo completo](../examples/systemone.request.json).
 
-O alias `musaranho` seleciona o modelo `musaranho-0.2` nesta versão.
+O alias `musaranho` seleciona o modelo `musaranho-0.3` nesta versão.
 
 | Local | Campos da resposta |
 | --- | --- |

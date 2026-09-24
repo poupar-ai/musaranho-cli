@@ -4,7 +4,7 @@
 - [systemone.response.json](systemone.response.json): resposta ilustrativa no contrato comum. Não é resultado de um modelo treinado.
 - [Caddyfile](Caddyfile): proxy HTTPS; substitua o domínio antes de usar.
 
-O instalador inclui o modelo musaranho-0.2. A requisição executa inferência real; o arquivo de resposta continua ilustrativo e não promete essas probabilidades.
+O instalador inclui o modelo musaranho-0.3. A requisição executa inferência real; o arquivo de resposta continua ilustrativo e não promete essas probabilidades.
 
 Com o servidor em execução e a partir da raiz deste repositório, você pode executar a inferência:
 
